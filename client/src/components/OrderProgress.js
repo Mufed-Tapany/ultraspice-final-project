@@ -7,37 +7,30 @@ export default class OrderProgress extends Component {
         super(props);
         this.state = {
             step: 1,
-            email: "",
-            first_name: "",
-            last_name: "",
+            shipping_first_name: "",
+            shipping_last_name: "",
             street: "",
             plz: "",
             city: "",
         };
-        this.onFirstStepFormSubmit = this.onFirstStepFormSubmit.bind(this);
+        // this.onFirstStepFormSubmit = this.onFirstStepFormSubmit.bind(this);
         this.onSecondStepFormSubmit = this.onSecondStepFormSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
 
-    // firsOrdertStep(event) {
+    // onFirstStepFormSubmit(event) {
     //     event.preventDefault();
-    //     axios.post("/order", this.state).then((response) => {
-    //         console.log("[/order]", response.data);
-    //     });
+    //     this.setState({ step: 2 });
+    //     axios
+    //         .post("/api/orders", this.state)
+    //         .then((response) => {
+    //             console.log("[/api/orders:data]", response.data);
+    //             this.setState({ step: 2 });
+    //         })
+    //         .catch((error) => {
+    //             console.log("[ERROR:/order/start]", error.response.data);
+    //         });
     // }
-
-    onFirstStepFormSubmit(event) {
-        event.preventDefault();
-        axios
-            .post("/order/start", this.state)
-            .then((response) => {
-                console.log("[/order/start:data]", response.data);
-                this.setState({ step: 2 });
-            })
-            .catch((error) => {
-                console.log("[ERROR:/order/start]", error.response.data);
-            });
-    }
 
     onSecondStepFormSubmit(event) {
         event.preventDefault();
@@ -46,6 +39,7 @@ export default class OrderProgress extends Component {
             .then((response) => {
                 console.log("[/order/verify:data]", response.data);
                 this.setState({ step: 3 });
+                //response.json(response.data);
             })
             .catch((error) => {
                 console.log("[ERROR:/order/verify]", error.response.data);
@@ -60,13 +54,6 @@ export default class OrderProgress extends Component {
     }
 
     render() {
-        // if (this.state.step == 1) {
-        //     return (
-        //         <div>
-        //             <button onClick={this.firsOrdertStep}>Order</button>
-        //         </div>
-        //     );
-        // }
         if (this.state.step == 1) {
             return (
                 <div className="login">
@@ -74,31 +61,28 @@ export default class OrderProgress extends Component {
                         <h3 className="reset-pass-text">Enter your Data</h3>
                     </div>
                     <div className="registration-form">
-                        <form
-                            className="registration-form"
-                            onSubmit={this.onFirstStepFormSubmit}
-                        >
+                        <form className="registration-form">
                             {/* <label htmlFor="email">Email</label>
                             <input
                                 type="email"
                                 name="email"
                                 required
                                 onChange={this.onInputChange}
-                            />
+                            /> */}
                             <label htmlFor="first_name">First Name</label>
                             <input
                                 type="text"
-                                name="first_name"
+                                name="shipping_first_name"
                                 required
                                 onChange={this.onInputChange}
                             />
                             <label htmlFor="last_name">Last Name</label>
                             <input
                                 type="text"
-                                name="last_name"
+                                name="shipping_last_name"
                                 required
                                 onChange={this.onInputChange}
-                            /> */}
+                            />
                             <label htmlFor="street">Address</label>
                             <input
                                 type="text"
@@ -120,7 +104,16 @@ export default class OrderProgress extends Component {
                                 required
                                 onChange={this.onInputChange}
                             />
-                            <button type="submit">Next</button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    this.setState((prevState) => ({
+                                        step: prevState.step + 1,
+                                    }));
+                                }}
+                            >
+                                Next
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -130,7 +123,10 @@ export default class OrderProgress extends Component {
             return (
                 <div className="login">
                     <div className="registration-login-title">
-                        <h1>Reset Password</h1>
+                        <h1>
+                            Click on Submit order to complete and close your
+                            order
+                        </h1>
                     </div>
                     <div className="registration-form">
                         <form

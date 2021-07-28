@@ -18,9 +18,9 @@ const {
     updatePassword,
     createImage,
     getUserById,
-    getOrder,
-    getUserAddress,
-    changeOrderStatus,
+    //getOrder,
+    setShippingAddress,
+    //changeOrderStatus,
 } = require("../database/db");
 
 app.use(compression());
@@ -151,24 +151,50 @@ app.post("/password/reset/verify", (request, response) => {
     });
 });
 
-app.post("/order/start", (request, response) => {
-    const id = request.session.userId;
-    const { street, plz, city } = request.body;
-    getUserAddress({ street, plz, city, id }).then((address) => {
-        console.log("Address", address);
-        response.json(address);
-    });
-});
+// app.post("/api/orders", (request, response) => {
+//     const id = request.session.userId;
+//     const { street, plz, city } = request.body;
+//     getUserAddress({ street, plz, city, id }).then((address) => {
+//         console.log("Address", address);
+//         response.json(address);
+//     });
+// });
 
 app.post("/order/verify", (request, response) => {
     const id = request.session.userId;
-    changeOrderStatus(id).then((status) => {
-        console.log("status", status);
-        response.json(status);
-        getOrder(id).then((order) => {
-            response.json(order);
-        });
+    console.log("request", request.body);
+    const {
+        shipping_first_name,
+        shipping_last_name,
+        street,
+        plz,
+        city,
+    } = request.body;
+    setShippingAddress({
+        shipping_first_name,
+        shipping_last_name,
+        street,
+        plz,
+        city,
+        id,
+    }).then((address) => {
+        response.json(
+            shipping_first_name,
+            shipping_last_name,
+            street,
+            plz,
+            city,
+            id
+        );
     });
+
+    // changeOrderStatus(id).then((status) => {
+    //     console.log("status", status);
+    //     response.json(status);
+    //     getOrder(id).then((order) => {
+    //         response.json(order);
+    //     });
+    // });
 });
 
 app.get("/api/user", (request, response) => {

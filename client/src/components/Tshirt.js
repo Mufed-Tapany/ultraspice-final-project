@@ -8,7 +8,11 @@ function Tshirt({ image }) {
     return (
         <div id="image-wrapper" className="editor-area">
             <div className="canvas-bg-wrapper">
-                <img className="canvas-bg" src={tshirt} alt="T-shirt" />
+                <img
+                    className="t-shirt-background"
+                    src={tshirt}
+                    alt="T-shirt"
+                />
                 <img
                     className="top"
                     src={image || DEFAULT_IMAGE}

@@ -26,6 +26,8 @@ CREATE TABLE reset_password (
 CREATE TABLE orders (
      id SERIAL primary key,
      userId INTEGER NOT NULL REFERENCES users (id),
+     shipping_first_name VARCHAR(50),
+     shipping_last_name VARCHAR(50),
      street VARCHAR(50),
      plz INTEGER,
      city VARCHAR(50),

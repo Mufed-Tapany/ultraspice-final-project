@@ -115,7 +115,72 @@ label {
     width: 200px;
     height: 100px;
     top: 190px;
-    left: 150px;
+    left: 120px;
     z-index: 3;
     object-fit: cover;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-form > label {
+    text-align: center;
+    font-size: 13px;
+    height: 21px;
+}
+
+.upload-form > label,
+button {
+    margin: 0.7rem;
+    border: 2px solid #15839ede;
+    background-color: transparent;
+    width: 140px;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    color: #006464;
+}
+
+.upload-form label:hover,
+button:hover {
+    background-color: #15839ede;
+    color: white;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 30px;
+}
+
+.sizes {
+    display: flex;
+    margin-top: 2%;
+}
+
+#sizes {
+    margin-top: 4%;
+    margin-left: 4%;
+    height: 30px;
+}
+
+.sizes h3,
+.image-uploader h3 {
+    color: black;
+    opacity: 0.6;
+    margin-left: 4%;
+}
+/* .progress-content {
+    display: flex;
+    flex-direction: row;
+} */
+
+header {
+    height: 6em;
+    background-color: #006464;
+}
+
+.t-shirt-background {
+    height: 550px;
 }

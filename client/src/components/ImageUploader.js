@@ -29,8 +29,8 @@ class ImageUploader extends Component {
     }
     render() {
         return (
-            <div className="profile-picture-uploader modal">
-                <div className="modal-content form">
+            <div className="image-uploader">
+                <div className="image-uploader-content">
                     <h3>Choose a picture for your profile</h3>
                     <form
                         className="upload-form"

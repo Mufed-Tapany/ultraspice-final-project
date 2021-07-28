@@ -71,37 +71,43 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
-function getOrder(id) {
-    return db
-        .query(
-            `
-        SELECT u.id, u.first_name, u.last_name, u.email, o.id, o.image, o.street, o.plz, o.city
-        FROM users AS u
-        JOIN orders AS o
-        ON o.userId = u.id
-        `,
-            [id]
-        )
-        .then((result) => result.rows);
-}
+// function getOrder(id) {
+//     return db
+//         .query(
+//             `
+//         SELECT u.id, u.first_name, u.last_name, u.email, o.id, o.image, o.street, o.plz, o.city
+//         FROM users AS u
+//         JOIN orders AS o
+//         ON o.userId = u.id
+//         `,
+//             [id]
+//         )
+//         .then((result) => result.rows);
+// }
 
-function getUserAddress({ street, plz, city, id }) {
+function setShippingAddress({
+    shipping_first_name,
+    shipping_last_name,
+    street,
+    plz,
+    city,
+    id,
+}) {
     return db
         .query(
-            "UPDATE orders SET street = $1, plz = $2, city = $3 WHERE userId = $4 RETURNING *",
-            [street, plz, city, id]
+            "UPDATE orders SET shipping_first_name = $1, shipping_last_name = $2, street = $3, plz = $4, city = $5, status = true WHERE id = $6 RETURNING *",
+            [shipping_first_name, shipping_last_name, street, plz, city, id]
         )
         .then((result) => result.rows[0]);
 }
 
-function changeOrderStatus(id) {
-    return db
-        .query(
-            "UPDATE orders SET status = true WHERE userId = $1 RETURNING *",
-            [id]
-        )
-        .then((result) => result.rows[0]);
-}
+// function changeOrderStatus(id) {
+//     return db
+//         .query("UPDATE orders SET status = true WHERE id = $1 RETURNING *", [
+//             id,
+//         ])
+//         .then((result) => result.rows[0]);
+// }
 
 module.exports = {
     createUser,
@@ -111,7 +117,7 @@ module.exports = {
     updatePassword,
     createImage,
     getUserById,
-    getOrder,
-    getUserAddress,
-    changeOrderStatus,
+    //getOrder,
+    setShippingAddress,
+    //changeOrderStatus,
 };
