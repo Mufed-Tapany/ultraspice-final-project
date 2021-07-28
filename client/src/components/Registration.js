@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 export default class Registration extends Component {
     constructor(props) {
         super(props);
-
         this.state = {};
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);

@@ -4,6 +4,21 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const path = require("path");
 const csurf = require("csurf");
+const { hashPassword } = require("../helpers/hashPassword");
+const { login } = require("../helpers/login");
+const { s3upload } = require("../helpers/s3");
+const uploader = require("../helpers/upload");
+const { sendEmail } = require("../helpers/ses");
+const crypto = require("crypto-random-string");
+const {
+    createUser,
+    getUserByEmail,
+    createPasswordResetCode,
+    getCodeByEmail,
+    updatePassword,
+    getImage,
+    getUserById,
+} = require("../database/db");
 
 app.use(compression());
 
@@ -35,6 +50,146 @@ app.use(function (request, response, next) {
 });
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+
+app.get("/api/user/id.json", function (request, response) {
+    response.json({
+        userId: request.session.userId,
+    });
+});
+
+app.post("/api/register", (request, response) => {
+    const { first_name, last_name, email, password } = request.body;
+    const usedEmail =
+        "This Email Address is already used, please register with another one";
+
+    hashPassword(password).then((password_hash) => {
+        return createUser({ first_name, last_name, email, password_hash })
+            .then((user) => {
+                console.log("userId", user.id);
+                request.session.userId = user.id;
+                console.log(request.session.userId);
+                response.json(user);
+            })
+            .catch((error) => {
+                // if the user entered an existing (used email) email
+                if (error.constraint === "users_email_key") {
+                    console.log("ERROR:email exist", error);
+                    // show error message
+                    response.json({ error_message: usedEmail });
+                    return;
+                }
+                console.log("[ERROR:createUser]", error);
+            });
+    });
+});
+
+app.post("/api/login", (request, response) => {
+    const { email, password } = request.body;
+    login(email, password)
+        .then((user) => {
+            request.session.userId = user.id;
+            response.json(user);
+        })
+        .catch((error) => {
+            console.log("[/api/login:error]", error);
+            response.statusCode = 400;
+            response.json({
+                error: "Wrong credentials",
+            });
+        });
+});
+
+app.post("/password/reset/start", (request, response) => {
+    const { email } = request.body;
+    const code = crypto({ length: 6, type: "alphanumeric" });
+    getUserByEmail(email)
+        .then((realUser) => {
+            if (!realUser) {
+                console.log("ERROR not real user");
+                response.statusCode = 400;
+                response.json({ message: "User not found!" });
+                return;
+            }
+            createPasswordResetCode({ email, code })
+                .then(() => {
+                    sendEmail(email, code);
+                    console.log("Code", code);
+                    response.json({ message: "Ok" });
+                })
+                .catch((error) => {
+                    console.log("ERROR:createPasswordResetCode", error);
+                    response.statusCode = 500;
+                });
+        })
+        .catch((error) => {
+            console.log("ERROR:getUserByEmail", error);
+            response.statusCode = 500;
+        });
+});
+
+app.post("/password/reset/verify", (request, response) => {
+    const { email, password, code } = request.body;
+    getCodeByEmail({ email, code }).then((data) => {
+        if (!data) {
+            console.log("Error");
+            response.json({ message: "No code found!" });
+        }
+        if (data.code == request.body.code) {
+            updatePassword({ password, email })
+                .then(() => {
+                    console.log("RESET:successfull");
+                    response.json({ message: "successfull" });
+                })
+                .catch((error) => {
+                    console.log("ERROR:/password/reset/verify", error);
+                    response.statusCode = 500;
+                });
+        }
+    });
+});
+
+app.get("/api/user", (request, response) => {
+    const { userId } = request.session;
+    if (userId) {
+        return getUserById(userId)
+            .then((user) => {
+                console.log("user", user);
+                console.log("id", user.id); // undefined
+                response.json({
+                    userId: user.id,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                });
+            })
+            .catch((error) => {
+                console.log("[ERROR:getUserById]", error);
+                response.statusCode = 500;
+            });
+    }
+    response.json({ message: "No user logged in currently" });
+});
+
+app.post(
+    "/api/upload_picture",
+    uploader.single("file"),
+    s3upload,
+    (request, response) => {
+        const { userId } = request.session;
+        const { filename } = request.file;
+        console.log("userId", userId);
+        const image = `https://s3.amazonaws.com/spicedling/${filename}`;
+
+        getImage({ userId, image })
+            .then((data) => {
+                console.log("[updateImage]", data);
+                response.json({ userId, image });
+            })
+            .catch((error) => {
+                console.log("[ERROR:updateImage]", error);
+                response.json({ message: "Error while updating user" });
+            });
+    }
+);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
