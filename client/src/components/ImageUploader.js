@@ -18,9 +18,9 @@ class ImageUploader extends Component {
             console.log("post:/api/upload_picture", response.data);
             console.log(
                 "DATA:before",
-                this.props.onUpload(response.data.profilePicURL)
+                this.props.onUpload(response.data.image)
             );
-            this.props.onUpload(response.data.profilePicURL);
+            this.props.onUpload(response.data.image);
         });
     }
     onChange(event) {

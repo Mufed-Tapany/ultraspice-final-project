@@ -16,7 +16,6 @@ export default class ResetPassword extends Component {
 
     onFirstStepFormSubmit(event) {
         event.preventDefault();
-        console.log("Something");
         axios
             .post("/password/reset/start", this.state)
             .then((response) => {
@@ -32,7 +31,6 @@ export default class ResetPassword extends Component {
     }
     onSecondStepFormSubmit(event) {
         event.preventDefault();
-        console.log("Done");
         axios
             .post("/password/reset/verify", this.state)
             .then((response) => {

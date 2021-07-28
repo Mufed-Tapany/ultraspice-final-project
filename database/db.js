@@ -56,16 +56,7 @@ function updatePassword({ password, email }) {
     });
 }
 
-// function getImage({ userId, first_name, last_name, email, image }) {
-//     return db
-//         .query(
-//             "INSERT INTO orders (userId, first_name, last_name, email, image) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-//             [userId, first_name, last_name, email, image]
-//         )
-//         .then((result) => result.rows[0]);
-// }
-
-function getImage({ image, userId }) {
+function createImage({ image, userId }) {
     return db
         .query(
             "INSERT INTO orders (image, userId) VALUES ($1, $2) RETURNING *",
@@ -80,12 +71,47 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
+function getOrder(id) {
+    return db
+        .query(
+            `
+        SELECT u.id, u.first_name, u.last_name, u.email, o.id, o.image, o.street, o.plz, o.city
+        FROM users AS u
+        JOIN orders AS o
+        ON o.userId = u.id
+        `,
+            [id]
+        )
+        .then((result) => result.rows);
+}
+
+function getUserAddress({ street, plz, city, id }) {
+    return db
+        .query(
+            "UPDATE orders SET street = $1, plz = $2, city = $3 WHERE userId = $4 RETURNING *",
+            [street, plz, city, id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+function changeOrderStatus(id) {
+    return db
+        .query(
+            "UPDATE orders SET status = true WHERE userId = $1 RETURNING *",
+            [id]
+        )
+        .then((result) => result.rows[0]);
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
     createPasswordResetCode,
     getCodeByEmail,
     updatePassword,
-    getImage,
+    createImage,
     getUserById,
+    getOrder,
+    getUserAddress,
+    changeOrderStatus,
 };

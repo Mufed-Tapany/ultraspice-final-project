@@ -117,4 +117,5 @@ label {
     top: 190px;
     left: 150px;
     z-index: 3;
+    object-fit: cover;
 }

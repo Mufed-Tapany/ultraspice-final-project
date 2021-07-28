@@ -16,8 +16,11 @@ const {
     createPasswordResetCode,
     getCodeByEmail,
     updatePassword,
-    getImage,
+    createImage,
     getUserById,
+    getOrder,
+    getUserAddress,
+    changeOrderStatus,
 } = require("../database/db");
 
 app.use(compression());
@@ -148,6 +151,26 @@ app.post("/password/reset/verify", (request, response) => {
     });
 });
 
+app.post("/order/start", (request, response) => {
+    const id = request.session.userId;
+    const { street, plz, city } = request.body;
+    getUserAddress({ street, plz, city, id }).then((address) => {
+        console.log("Address", address);
+        response.json(address);
+    });
+});
+
+app.post("/order/verify", (request, response) => {
+    const id = request.session.userId;
+    changeOrderStatus(id).then((status) => {
+        console.log("status", status);
+        response.json(status);
+        getOrder(id).then((order) => {
+            response.json(order);
+        });
+    });
+});
+
 app.get("/api/user", (request, response) => {
     const { userId } = request.session;
     if (userId) {
@@ -179,7 +202,7 @@ app.post(
         console.log("userId", userId);
         const image = `https://s3.amazonaws.com/spicedling/${filename}`;
 
-        getImage({ userId, image })
+        createImage({ userId, image })
             .then((data) => {
                 console.log("[updateImage]", data);
                 response.json({ userId, image });
