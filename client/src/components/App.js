@@ -1,7 +1,6 @@
 import { Component } from "react";
 import axios from "../axios";
-import { Link, Redirect } from "react-router-dom";
-import { BrowserRouter, Route, HashRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 import Tshirt from "./Tshirt";
 import ImageUploader from "./ImageUploader";
 import OrderProgress from "./OrderProgress";
@@ -76,10 +75,14 @@ class App extends Component {
             <BrowserRouter>
                 <header>
                     <div className="header-links">
+                        <Link to="/">
+                            <button className="header-button">Home</button>
+                        </Link>
                         <Link to="/orders">
                             <button className="header-button">Orders</button>
                         </Link>
                     </div>
+                    <img className="logo" src="/logo.jpg" />
                 </header>
                 <div className="progress-container">
                     <Route path="/" exact>
