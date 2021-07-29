@@ -5,6 +5,8 @@ import { BrowserRouter, Route, HashRouter, Switch } from "react-router-dom";
 import Tshirt from "./Tshirt";
 import ImageUploader from "./ImageUploader";
 import OrderProgress from "./OrderProgress";
+import Size from "./Size";
+import TshirtColor from "./TshirtColor";
 
 class App extends Component {
     constructor(props) {
@@ -80,54 +82,11 @@ class App extends Component {
                         />
                         <div className="progress-content">
                             <ImageUploader onUpload={this.onUpload} />
-                            <div className="sizes">
-                                <h3>Choose the size</h3>
-                                <select
-                                    onChange={this.onSizeChange}
-                                    name="sizes"
-                                    id="sizes"
-                                    value={this.state.order.size}
-                                >
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
-                            </div>
-                            <div className="colors">
-                                <h3>Choose T-Shirt color</h3>
-                                <button
-                                    className="dot white"
-                                    value="/white-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                                <button
-                                    className="dot black"
-                                    value="/black-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                                <button
-                                    className="dot red"
-                                    value="/red-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                                <button
-                                    className="dot blue"
-                                    value="/blue-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                                <button
-                                    className="dot green"
-                                    value="/green-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                                <button
-                                    className="dot yellow"
-                                    value="/yellow-t-shirt.jpeg"
-                                    onClick={this.onColorChange}
-                                ></button>
-                            </div>
+                            <Size
+                                value={this.state.order.size}
+                                onSizeChange={this.onSizeChange}
+                            />
+                            <TshirtColor onColorChange={this.onColorChange} />
                             <Link to="/order" className="or">
                                 <button className="order-button">Order</button>
                             </Link>

@@ -119,7 +119,7 @@ export default class OrderProgress extends Component {
         }
         if (this.state.step == 3) {
             return (
-                <div>
+                <div className="order-done">
                     <p>Thank you! Your order has been successfully sent</p>
                     <p>
                         Continue{" "}

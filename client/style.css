@@ -129,13 +129,13 @@ input[type="file"] {
 
 .upload-form > label {
     text-align: center;
-    font-size: 13px;
-    height: 21px;
+    font-size: 13.8px;
+    height: 22px;
 }
 
 .upload-form > label,
 button {
-    margin: 0.7rem 20px;
+    margin: 0.7rem 16px;
     border: 2px solid #15839ede;
     background-color: transparent;
     width: 140px;
@@ -185,6 +185,11 @@ button:hover {
 
 .progress-content {
     width: 400px;
+    margin-left: 5%;
+}
+
+.progress-content h3 {
+    font-size: 17px;
 }
 
 header {
