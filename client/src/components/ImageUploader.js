@@ -16,11 +16,7 @@ class ImageUploader extends Component {
         formData.append("file", this.state.file);
         axios.post("/api/upload_picture", formData).then((response) => {
             console.log("post:/api/upload_picture", response.data);
-            console.log(
-                "DATA:before",
-                this.props.onUpload(response.data.image)
-            );
-            this.props.onUpload(response.data.image);
+            this.props.onUpload(response.data);
         });
     }
     onChange(event) {
@@ -31,7 +27,7 @@ class ImageUploader extends Component {
         return (
             <div className="image-uploader">
                 <div className="image-uploader-content">
-                    <h3>Choose a picture for your profile</h3>
+                    <h3>Choose an image you want to print</h3>
                     <form
                         className="upload-form"
                         method="POST"
@@ -44,6 +40,7 @@ class ImageUploader extends Component {
                             <input
                                 type="file"
                                 accept="image/*"
+                                required
                                 onChange={this.onChange}
                             />
                         </label>

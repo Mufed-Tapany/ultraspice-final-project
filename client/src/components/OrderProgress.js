@@ -13,38 +13,20 @@ export default class OrderProgress extends Component {
             plz: "",
             city: "",
         };
-        // this.onFirstStepFormSubmit = this.onFirstStepFormSubmit.bind(this);
+        this.onFirstStepFormSubmit = this.onFirstStepFormSubmit.bind(this);
         this.onSecondStepFormSubmit = this.onSecondStepFormSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
 
-    // onFirstStepFormSubmit(event) {
-    //     event.preventDefault();
-    //     this.setState({ step: 2 });
-    //     axios
-    //         .post("/api/orders", this.state)
-    //         .then((response) => {
-    //             console.log("[/api/orders:data]", response.data);
-    //             this.setState({ step: 2 });
-    //         })
-    //         .catch((error) => {
-    //             console.log("[ERROR:/order/start]", error.response.data);
-    //         });
-    // }
+    onFirstStepFormSubmit(event) {
+        event.preventDefault();
+        this.setState({ step: 2 });
+    }
 
     onSecondStepFormSubmit(event) {
         event.preventDefault();
-        axios
-            .post("/order/verify", this.state)
-            .then((response) => {
-                console.log("[/order/verify:data]", response.data);
-                this.setState({ step: 3 });
-                //response.json(response.data);
-            })
-            .catch((error) => {
-                console.log("[ERROR:/order/verify]", error.response.data);
-                //return this.setState({ error: error.response.data.error });
-            });
+        this.props.onOrderSubmit(this.state);
+        this.setState({ step: 3 });
     }
 
     onInputChange(event) {
@@ -56,19 +38,17 @@ export default class OrderProgress extends Component {
     render() {
         if (this.state.step == 1) {
             return (
-                <div className="login">
-                    <div className="reset-pass-title">
-                        <h3 className="reset-pass-text">Enter your Data</h3>
+                <div className="adress">
+                    <div className="adress-data">
+                        <h3 className="address-data-title">
+                            Enter shipping address
+                        </h3>
                     </div>
                     <div className="registration-form">
-                        <form className="registration-form">
-                            {/* <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                required
-                                onChange={this.onInputChange}
-                            /> */}
+                        <form
+                            className="registration-form"
+                            onSubmit={this.onFirstStepFormSubmit}
+                        >
                             <label htmlFor="first_name">First Name</label>
                             <input
                                 type="text"
@@ -104,16 +84,14 @@ export default class OrderProgress extends Component {
                                 required
                                 onChange={this.onInputChange}
                             />
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    this.setState((prevState) => ({
-                                        step: prevState.step + 1,
-                                    }));
-                                }}
-                            >
-                                Next
-                            </button>
+                            <div className="order-btns">
+                                <button type="submit">Next</button>
+                                <button>
+                                    <Link to="/" className="go-back-btn">
+                                        Go Back
+                                    </Link>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -121,12 +99,12 @@ export default class OrderProgress extends Component {
         }
         if (this.state.step == 2) {
             return (
-                <div className="login">
-                    <div className="registration-login-title">
-                        <h1>
-                            Click on Submit order to complete and close your
-                            order
-                        </h1>
+                <div className="submit-order">
+                    <div className="submit-order-title">
+                        <h3>
+                            Click <strong>Submit order</strong> to complete and
+                            close your order
+                        </h3>
                     </div>
                     <div className="registration-form">
                         <form
@@ -142,13 +120,12 @@ export default class OrderProgress extends Component {
         if (this.state.step == 3) {
             return (
                 <div>
-                    <p>Your order has been successfully sent</p>
+                    <p>Thank you! Your order has been successfully sent</p>
                     <p>
-                        {/* You can{" "}
-                        <Link to="/login" className="register-link">
-                            Login
+                        Continue{" "}
+                        <Link to="/" className="home">
+                            shopping
                         </Link>{" "}
-                        again */}
                     </p>
                 </div>
             );

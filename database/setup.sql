@@ -1,11 +1,14 @@
+-- drop existing users images
+DROP TABLE IF EXISTS images CASCADE;
+
 -- -- drop existing reset_password tables
-DROP TABLE IF EXISTS reset_password;
+DROP TABLE IF EXISTS reset_password CASCADE;
 
 -- -- drop existing users tables
 DROP TABLE IF EXISTS users CASCADE;
 
 -- drop existing users orders
-DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS orders CASCADE;
 
 CREATE TABLE users (
     id SERIAL primary key,
@@ -23,18 +26,29 @@ CREATE TABLE reset_password (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE images (
+    id SERIAL primary key,
+    userId INTEGER NOT NULL REFERENCES users (id),
+    url TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE orders (
      id SERIAL primary key,
      userId INTEGER NOT NULL REFERENCES users (id),
+     imageId INTEGER NOT NULL REFERENCES images (id),
      shipping_first_name VARCHAR(50),
      shipping_last_name VARCHAR(50),
      street VARCHAR(50),
      plz INTEGER,
      city VARCHAR(50),
-     image TEXT,
-     status BOOLEAN DEFAULT FALSE,
+     size VARCHAR(10),
+     color VARCHAR(50),
+     quantity INTEGER,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 
 --  first_name VARCHAR(100) REFERENCES users (first_name),
 --  last_name VARCHAR(100) REFERENCES users (last_name),

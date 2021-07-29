@@ -58,10 +58,10 @@ function updatePassword({ password, email }) {
 
 function createImage({ image, userId }) {
     return db
-        .query(
-            "INSERT INTO orders (image, userId) VALUES ($1, $2) RETURNING *",
-            [image, userId]
-        )
+        .query("INSERT INTO images (url, userId) VALUES ($1, $2) RETURNING *", [
+            image,
+            userId,
+        ])
         .then((result) => result.rows[0]);
 }
 
@@ -71,43 +71,36 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
-// function getOrder(id) {
-//     return db
-//         .query(
-//             `
-//         SELECT u.id, u.first_name, u.last_name, u.email, o.id, o.image, o.street, o.plz, o.city
-//         FROM users AS u
-//         JOIN orders AS o
-//         ON o.userId = u.id
-//         `,
-//             [id]
-//         )
-//         .then((result) => result.rows);
-// }
-
-function setShippingAddress({
+function createOrder({
+    userId,
+    imageId,
     shipping_first_name,
     shipping_last_name,
     street,
     plz,
     city,
-    id,
+    size,
+    color,
+    quantity,
 }) {
     return db
         .query(
-            "UPDATE orders SET shipping_first_name = $1, shipping_last_name = $2, street = $3, plz = $4, city = $5, status = true WHERE id = $6 RETURNING *",
-            [shipping_first_name, shipping_last_name, street, plz, city, id]
+            "INSERT INTO orders (userId, imageId, shipping_first_name, shipping_last_name, street, plz, city, size, color, quantity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+            [
+                userId,
+                imageId,
+                shipping_first_name,
+                shipping_last_name,
+                street,
+                plz,
+                city,
+                size,
+                color,
+                quantity,
+            ]
         )
         .then((result) => result.rows[0]);
 }
-
-// function changeOrderStatus(id) {
-//     return db
-//         .query("UPDATE orders SET status = true WHERE id = $1 RETURNING *", [
-//             id,
-//         ])
-//         .then((result) => result.rows[0]);
-// }
 
 module.exports = {
     createUser,
@@ -117,7 +110,5 @@ module.exports = {
     updatePassword,
     createImage,
     getUserById,
-    //getOrder,
-    setShippingAddress,
-    //changeOrderStatus,
+    createOrder,
 };

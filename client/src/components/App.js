@@ -12,9 +12,18 @@ class App extends Component {
         this.state = {
             firstName: "",
             lastName: "",
-            image: "",
+            order: {
+                size: "",
+                quantity: 1,
+                color: "/white-t-shirt.jpeg",
+                image: {},
+            },
+            //t_shirt: "/white-t-shirt.jpeg",
         };
         this.onUpload = this.onUpload.bind(this);
+        this.onOrderSubmit = this.onOrderSubmit.bind(this);
+        this.onSizeChange = this.onSizeChange.bind(this);
+        this.onColorChange = this.onColorChange.bind(this);
     }
 
     componentDidMount() {
@@ -27,10 +36,36 @@ class App extends Component {
         });
     }
 
-    onUpload(newImage) {
+    onUpload(image) {
         this.setState({
-            image: newImage,
+            order: {
+                ...this.state.order,
+                image,
+            },
         });
+    }
+
+    onSizeChange(event) {
+        this.setState({
+            order: {
+                ...this.state.order,
+                size: event.target.value,
+            },
+        });
+    }
+
+    onColorChange(event) {
+        this.setState({
+            order: {
+                ...this.state.order,
+                color: event.target.value,
+            },
+        });
+    }
+
+    onOrderSubmit(data) {
+        console.log("data", data);
+        axios.post("/orders", { ...this.state.order, ...data });
     }
 
     render() {
@@ -39,12 +74,20 @@ class App extends Component {
                 <header></header>
                 <div className="progress-container">
                     <Route path="/" exact>
-                        <Tshirt image={this.state.image} />
+                        <Tshirt
+                            image={this.state.order.image.url}
+                            t_shirt={this.state.order.color}
+                        />
                         <div className="progress-content">
                             <ImageUploader onUpload={this.onUpload} />
                             <div className="sizes">
                                 <h3>Choose the size</h3>
-                                <select name="sizes" id="sizes">
+                                <select
+                                    onChange={this.onSizeChange}
+                                    name="sizes"
+                                    id="sizes"
+                                    value={this.state.order.size}
+                                >
                                     <option value="XS">XS</option>
                                     <option value="S">S</option>
                                     <option value="M">M</option>
@@ -52,14 +95,47 @@ class App extends Component {
                                     <option value="XL">XL</option>
                                 </select>
                             </div>
-                            <Link to="/order/start" className="order-start">
-                                <button>Order</button>
+                            <div className="colors">
+                                <h3>Choose T-Shirt color</h3>
+                                <button
+                                    className="dot white"
+                                    value="/white-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                                <button
+                                    className="dot black"
+                                    value="/black-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                                <button
+                                    className="dot red"
+                                    value="/red-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                                <button
+                                    className="dot blue"
+                                    value="/blue-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                                <button
+                                    className="dot green"
+                                    value="/green-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                                <button
+                                    className="dot yellow"
+                                    value="/yellow-t-shirt.jpeg"
+                                    onClick={this.onColorChange}
+                                ></button>
+                            </div>
+                            <Link to="/order" className="or">
+                                <button className="order-button">Order</button>
                             </Link>
                         </div>
                     </Route>
                 </div>
-                <Route path="/order/start">
-                    <OrderProgress />
+                <Route path="/order">
+                    <OrderProgress onOrderSubmit={this.onOrderSubmit} />
                 </Route>
             </BrowserRouter>
         );

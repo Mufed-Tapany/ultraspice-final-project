@@ -18,8 +18,9 @@ const {
     updatePassword,
     createImage,
     getUserById,
+    createOrder,
     //getOrder,
-    setShippingAddress,
+    //setShippingAddress,
     //changeOrderStatus,
 } = require("../database/db");
 
@@ -160,41 +161,41 @@ app.post("/password/reset/verify", (request, response) => {
 //     });
 // });
 
-app.post("/order/verify", (request, response) => {
-    const id = request.session.userId;
-    console.log("request", request.body);
+app.post("/orders", (request, response) => {
+    const { userId } = request.session;
+    console.log("request.body", request.body);
+    const imageId = request.body.image.id;
+    console.log("image", imageId);
     const {
         shipping_first_name,
         shipping_last_name,
         street,
         plz,
         city,
+        size,
+        color,
+        quantity,
     } = request.body;
-    setShippingAddress({
+    createOrder({
+        userId,
+        imageId,
         shipping_first_name,
         shipping_last_name,
         street,
         plz,
         city,
-        id,
-    }).then((address) => {
-        response.json(
-            shipping_first_name,
-            shipping_last_name,
-            street,
-            plz,
-            city,
-            id
-        );
-    });
+        size,
+        color,
+        quantity,
+    })
+        .then((order) => {
+            response.json(order);
+        })
+        .catch((error) => {
+            console.log("ERROR:createOrder", error);
+        });
 
-    // changeOrderStatus(id).then((status) => {
-    //     console.log("status", status);
-    //     response.json(status);
-    //     getOrder(id).then((order) => {
-    //         response.json(order);
-    //     });
-    // });
+    response.json("hello");
 });
 
 app.get("/api/user", (request, response) => {
@@ -205,9 +206,7 @@ app.get("/api/user", (request, response) => {
                 console.log("user", user);
                 console.log("id", user.id); // undefined
                 response.json({
-                    userId: user.id,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
+                    ...user,
                 });
             })
             .catch((error) => {
@@ -231,7 +230,7 @@ app.post(
         createImage({ userId, image })
             .then((data) => {
                 console.log("[updateImage]", data);
-                response.json({ userId, image });
+                response.json({ ...data });
             })
             .catch((error) => {
                 console.log("[ERROR:updateImage]", error);
