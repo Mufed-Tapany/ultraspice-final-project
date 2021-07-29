@@ -102,6 +102,15 @@ function createOrder({
         .then((result) => result.rows[0]);
 }
 
+function getUserOrders(id) {
+    return db
+        .query(
+            "SELECT id, shipping_first_name, shipping_last_name, street, plz, city, created_at FROM orders WHERE userId = $1",
+            [id]
+        )
+        .then((result) => result.rows);
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
@@ -111,4 +120,5 @@ module.exports = {
     createImage,
     getUserById,
     createOrder,
+    getUserOrders,
 };

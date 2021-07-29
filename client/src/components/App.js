@@ -7,6 +7,7 @@ import ImageUploader from "./ImageUploader";
 import OrderProgress from "./OrderProgress";
 import Size from "./Size";
 import TshirtColor from "./TshirtColor";
+import UserOrders from "./UserOrders";
 
 class App extends Component {
     constructor(props) {
@@ -73,7 +74,13 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <header></header>
+                <header>
+                    <div className="header-links">
+                        <Link to="/orders">
+                            <button className="header-button">Orders</button>
+                        </Link>
+                    </div>
+                </header>
                 <div className="progress-container">
                     <Route path="/" exact>
                         <Tshirt
@@ -95,6 +102,9 @@ class App extends Component {
                 </div>
                 <Route path="/order">
                     <OrderProgress onOrderSubmit={this.onOrderSubmit} />
+                </Route>
+                <Route path="/orders">
+                    <UserOrders />
                 </Route>
             </BrowserRouter>
         );

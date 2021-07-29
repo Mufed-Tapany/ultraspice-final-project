@@ -19,9 +19,7 @@ const {
     createImage,
     getUserById,
     createOrder,
-    //getOrder,
-    //setShippingAddress,
-    //changeOrderStatus,
+    getUserOrders,
 } = require("../database/db");
 
 app.use(compression());
@@ -238,6 +236,13 @@ app.post(
             });
     }
 );
+
+app.get("/api/orders", (request, response) => {
+    const id = request.session.userId;
+    getUserOrders(id).then((order) => {
+        response.json(order);
+    });
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
