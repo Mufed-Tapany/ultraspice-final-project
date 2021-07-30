@@ -124,7 +124,7 @@ label {
     top: 150px;
     left: 120px;
     z-index: 3;
-    object-fit: cover;
+    object-fit: contain;
     background: transparent;
 }
 
@@ -174,7 +174,7 @@ button:hover {
 #sizes {
     margin-top: 4%;
     margin-left: 4%;
-    height: 30px;
+    height: 25px;
 }
 
 .sizes h3,
@@ -327,13 +327,30 @@ header {
 }
 
 .quantity button {
-    width: 40px;
-    margin-left: 20px;
+    height: 25px;
+    width: 35px;
+    background-color: transparent;
+    border: 1px solid #15839ede;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.quantity button:hover {
+    color: #006464;
+    background-color: #fff;
 }
 
 .quantity input {
-    width: 30px;
+    width: 35px;
+    height: 24px;
     text-align: center;
+    background-color: transparent;
+    border: 0.4px solid rgb(61, 61, 61);
+    text-align: center;
+}
+
+.product-quantity {
+    margin-left: 13px;
 }
 
 @media only screen and (max-device-width: 420px) {
@@ -367,8 +384,9 @@ header {
 
     .top {
         position: absolute;
-        width: 150px;
+        width: 160px;
         height: 160px;
+        object-fit: cover;
         top: 100px;
         left: 85px;
         z-index: 3;
@@ -407,7 +425,14 @@ header {
     .address-data-title {
         margin-top: 30%;
     }
-    .quantity button,
+
+    /* .quantity button {
+        margin-left: 0px;
+    } */
+    .product-quantity {
+        margin-left: 8px;
+    }
+
     .order-button {
         margin-left: 15px;
     }

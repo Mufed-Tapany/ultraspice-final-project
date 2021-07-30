@@ -20,6 +20,10 @@ class App extends Component {
                 quantity: 1,
                 color: "/white-t-shirt.jpeg",
                 image: {},
+                position: {
+                    x: 0,
+                    y: 0,
+                },
             },
         };
         this.onUpload = this.onUpload.bind(this);
@@ -28,6 +32,7 @@ class App extends Component {
         this.onColorChange = this.onColorChange.bind(this);
         this.incrementQuantity = this.incrementQuantity.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
+        this.onDragImage = this.onDragImage.bind(this);
     }
 
     componentDidMount() {
@@ -102,6 +107,15 @@ class App extends Component {
         });
     }
 
+    onDragImage(data) {
+        this.setState({
+            position: {
+                x: data.x,
+                y: data.y,
+            },
+        });
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -124,6 +138,8 @@ class App extends Component {
                             <Tshirt
                                 image={this.state.order.image.url}
                                 t_shirt={this.state.order.color}
+                                onDragImage={this.onDragImage}
+                                disabled={this.state.disabled}
                             />
                             <div className="progress-content">
                                 <ImageUploader onUpload={this.onUpload} />
