@@ -86,7 +86,7 @@ export default class OrderProgress extends Component {
                             />
                             <div className="order-btns">
                                 <button type="submit">Next</button>
-                                <button>
+                                <button className="go-back-btn-div">
                                     <Link to="/" className="go-back-btn">
                                         Go Back
                                     </Link>

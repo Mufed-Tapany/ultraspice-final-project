@@ -7,6 +7,7 @@ import OrderProgress from "./OrderProgress";
 import Size from "./Size";
 import TshirtColor from "./TshirtColor";
 import UserOrders from "./UserOrders";
+import Quantity from "./Quantity";
 
 class App extends Component {
     constructor(props) {
@@ -20,12 +21,13 @@ class App extends Component {
                 color: "/white-t-shirt.jpeg",
                 image: {},
             },
-            //t_shirt: "/white-t-shirt.jpeg",
         };
         this.onUpload = this.onUpload.bind(this);
         this.onOrderSubmit = this.onOrderSubmit.bind(this);
         this.onSizeChange = this.onSizeChange.bind(this);
         this.onColorChange = this.onColorChange.bind(this);
+        this.incrementQuantity = this.incrementQuantity.bind(this);
+        this.decrementQuantity = this.decrementQuantity.bind(this);
     }
 
     componentDidMount() {
@@ -70,39 +72,83 @@ class App extends Component {
         axios.post("/orders", { ...this.state.order, ...data });
     }
 
+    incrementQuantity() {
+        this.setState({
+            order: {
+                ...this.state.order,
+                quantity: this.state.order.quantity + 1,
+            },
+        });
+    }
+
+    decrementQuantity() {
+        this.setState({
+            order: {
+                ...this.state.order,
+                quantity:
+                    this.state.order.quantity > 0
+                        ? this.state.order.quantity - 1
+                        : 1,
+            },
+        });
+    }
+
+    onQuantityChange(event) {
+        this.setState({
+            order: {
+                ...this.state.order,
+                quantity: event.target.value,
+            },
+        });
+    }
+
     render() {
         return (
             <BrowserRouter>
-                <header>
-                    <div className="header-links">
-                        <Link to="/">
-                            <button className="header-button">Home</button>
-                        </Link>
-                        <Link to="/orders">
-                            <button className="header-button">Orders</button>
-                        </Link>
-                    </div>
-                    <img className="logo" src="/logo.jpg" />
-                </header>
-                <div className="progress-container">
-                    <Route path="/" exact>
-                        <Tshirt
-                            image={this.state.order.image.url}
-                            t_shirt={this.state.order.color}
-                        />
-                        <div className="progress-content">
-                            <ImageUploader onUpload={this.onUpload} />
-                            <Size
-                                value={this.state.order.size}
-                                onSizeChange={this.onSizeChange}
-                            />
-                            <TshirtColor onColorChange={this.onColorChange} />
-                            <Link to="/order" className="or">
-                                <button className="order-button">Order</button>
+                <section>
+                    <header>
+                        <div className="header-links">
+                            <Link to="/">
+                                <button className="header-button">Home</button>
+                            </Link>
+                            <Link to="/orders">
+                                <button className="header-button">
+                                    Orders
+                                </button>
                             </Link>
                         </div>
-                    </Route>
-                </div>
+                        <img className="logo" src="/logo.jpg" />
+                    </header>
+                    <div className="progress-container">
+                        <Route path="/" exact>
+                            <Tshirt
+                                image={this.state.order.image.url}
+                                t_shirt={this.state.order.color}
+                            />
+                            <div className="progress-content">
+                                <ImageUploader onUpload={this.onUpload} />
+                                <TshirtColor
+                                    onColorChange={this.onColorChange}
+                                />
+                                <Size
+                                    value={this.state.order.size}
+                                    onSizeChange={this.onSizeChange}
+                                />
+                                <Quantity
+                                    quantity={this.state.order.quantity}
+                                    onQuantityChange={this.onQuantityChange}
+                                    incrementQuantity={this.incrementQuantity}
+                                    decrementQuantity={this.decrementQuantity}
+                                />
+                                <Link to="/order" className="or">
+                                    <button className="order-button">
+                                        Order
+                                    </button>
+                                </Link>
+                            </div>
+                        </Route>
+                    </div>
+                </section>
                 <Route path="/order">
                     <OrderProgress onOrderSubmit={this.onOrderSubmit} />
                 </Route>
