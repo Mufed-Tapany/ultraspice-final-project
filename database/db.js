@@ -82,10 +82,12 @@ function createOrder({
     size,
     color,
     quantity,
+    x,
+    y,
 }) {
     return db
         .query(
-            "INSERT INTO orders (userId, imageId, shipping_first_name, shipping_last_name, street, plz, city, size, color, quantity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+            "INSERT INTO orders (userId, imageId, shipping_first_name, shipping_last_name, street, plz, city, size, color, quantity, x_dimension, y_dimension) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
             [
                 userId,
                 imageId,
@@ -97,6 +99,8 @@ function createOrder({
                 size,
                 color,
                 quantity,
+                x,
+                y,
             ]
         )
         .then((result) => result.rows[0]);

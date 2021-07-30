@@ -150,15 +150,6 @@ app.post("/password/reset/verify", (request, response) => {
     });
 });
 
-// app.post("/api/orders", (request, response) => {
-//     const id = request.session.userId;
-//     const { street, plz, city } = request.body;
-//     getUserAddress({ street, plz, city, id }).then((address) => {
-//         console.log("Address", address);
-//         response.json(address);
-//     });
-// });
-
 app.post("/orders", (request, response) => {
     const { userId } = request.session;
     console.log("request.body", request.body);
@@ -174,6 +165,10 @@ app.post("/orders", (request, response) => {
         color,
         quantity,
     } = request.body;
+    const { x, y } = request.body.position;
+
+    console.log("X-Dime", x);
+    console.log("Y-Dime", y);
     createOrder({
         userId,
         imageId,
@@ -185,6 +180,8 @@ app.post("/orders", (request, response) => {
         size,
         color,
         quantity,
+        x,
+        y,
     })
         .then((order) => {
             response.json(order);

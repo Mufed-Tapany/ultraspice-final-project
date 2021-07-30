@@ -353,6 +353,10 @@ header {
     margin-left: 13px;
 }
 
+.dimensions {
+    display: none;
+}
+
 @media only screen and (max-device-width: 420px) {
     .progress-container {
         flex-direction: column;

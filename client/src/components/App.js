@@ -109,9 +109,30 @@ class App extends Component {
 
     onDragImage(data) {
         this.setState({
+            order: {
+                ...this.state.order,
+                position: {
+                    x: data.x,
+                    y: data.y,
+                },
+            },
+        });
+    }
+
+    onXDimensionChange(event) {
+        this.setState({
             position: {
-                x: data.x,
-                y: data.y,
+                ...this.state.order.position,
+                x: event.target.value,
+            },
+        });
+    }
+
+    onYDimensionChange(event) {
+        this.setState({
+            position: {
+                ...this.state.order.position,
+                y: event.target.value,
             },
         });
     }
@@ -139,7 +160,10 @@ class App extends Component {
                                 image={this.state.order.image.url}
                                 t_shirt={this.state.order.color}
                                 onDragImage={this.onDragImage}
-                                disabled={this.state.disabled}
+                                x={this.state.order.position.x}
+                                y={this.state.order.position.y}
+                                onXDimensionChange={this.onXDimensionChange}
+                                onYDimensionChange={this.onYDimensionChange}
                             />
                             <div className="progress-content">
                                 <ImageUploader onUpload={this.onUpload} />

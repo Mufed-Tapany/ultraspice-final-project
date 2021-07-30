@@ -45,11 +45,7 @@ CREATE TABLE orders (
      size VARCHAR(10),
      color VARCHAR(50),
      quantity INTEGER,
+     x_dimension INTEGER,
+     y_dimension INTEGER,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
-
---  first_name VARCHAR(100) REFERENCES users (first_name),
---  last_name VARCHAR(100) REFERENCES users (last_name),
---  email VARCHAR(50) REFERENCES users (email),

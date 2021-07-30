@@ -1,14 +1,14 @@
-// import UploadedImage from "./UploadedImage";
-// import { useState } from "react";
 import Draggable from "react-draggable";
 
-function Tshirt({ image, t_shirt, onDragImage, disabled }) {
-    // const [position, setPosition] = useState({ x: 0, y: 0 });
-
-    // const trackPos = (data) => {
-    //     setPosition({ x: data.x, y: data.y });
-    // };
-
+function Tshirt({
+    image,
+    t_shirt,
+    onDragImage,
+    x,
+    y,
+    onXDimensionChange,
+    onYDimensionChange,
+}) {
     return (
         <div id="image-wrapper" className="editor-area">
             <div className="canvas-bg-wrapper">
@@ -19,7 +19,6 @@ function Tshirt({ image, t_shirt, onDragImage, disabled }) {
                 />
                 <Draggable
                     bounds={{ top: -70, left: -31, right: 25, bottom: 190 }}
-                    disabled={disabled}
                     onDrag={(e, data) => onDragImage(data)}
                 >
                     <img
@@ -28,6 +27,22 @@ function Tshirt({ image, t_shirt, onDragImage, disabled }) {
                         alt="T-shirt"
                     />
                 </Draggable>
+                <div className="dimensions">
+                    x{" "}
+                    <input
+                        type="text"
+                        name="x"
+                        value={x}
+                        onChange={onXDimensionChange}
+                    />{" "}
+                    y{" "}
+                    <input
+                        type="text"
+                        name="y"
+                        value={y}
+                        onChange={onYDimensionChange}
+                    />
+                </div>
             </div>
         </div>
     );
