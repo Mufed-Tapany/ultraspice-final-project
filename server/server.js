@@ -21,6 +21,8 @@ const {
     createOrder,
     getUserOrders,
 } = require("../database/db");
+const { request } = require("http");
+const { response } = require("express");
 
 app.use(compression());
 
@@ -99,6 +101,11 @@ app.post("/api/login", (request, response) => {
                 error: "Wrong credentials",
             });
         });
+});
+
+app.post("/logout", (request, response) => {
+    request.session.userId = null;
+    response.json({ message: "You have logged out" });
 });
 
 app.post("/password/reset/start", (request, response) => {
