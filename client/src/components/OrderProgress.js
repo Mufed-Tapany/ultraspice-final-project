@@ -120,7 +120,7 @@ export default class OrderProgress extends Component {
         if (this.state.step == 3) {
             return (
                 <div className="order-done">
-                    <p>Thank you! Your order has been successfully sent</p>
+                    <h3>Thank you! Your order has been successfully sent</h3>
                     <p>
                         Continue{" "}
                         <Link to="/" className="home">

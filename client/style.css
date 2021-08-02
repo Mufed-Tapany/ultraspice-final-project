@@ -291,6 +291,15 @@ header {
     flex-direction: column;
 }
 
+.order-done h3 {
+    text-align: center;
+    opacity: 0.6;
+}
+
+.order-done p {
+    text-align: center;
+}
+
 .orders-list {
     display: flex;
     flex-direction: column;
