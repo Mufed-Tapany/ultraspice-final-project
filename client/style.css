@@ -97,6 +97,10 @@ label {
     text-decoration: none;
 }
 
+.reset-password-div {
+    margin: 30px 20px;
+}
+
 .reset-pass-title {
     text-align: center;
     margin-top: 8%;
@@ -326,6 +330,10 @@ header {
     margin-top: 30px;
 }
 
+.h-6 {
+    display: none;
+}
+
 .quantity button {
     height: 25px;
     width: 35px;
@@ -372,7 +380,11 @@ header {
     }
 
     .progress-container {
+        display: flex;
         justify-content: center;
+        align-items: center;
+        padding-top: 4px;
+        margin: 0;
     }
 
     .progress-content {
@@ -388,11 +400,11 @@ header {
 
     .top {
         position: absolute;
-        width: 160px;
-        height: 160px;
+        width: 133px;
+        height: 133px;
         object-fit: cover;
         top: 100px;
-        left: 85px;
+        left: 90px;
         z-index: 3;
     }
 
@@ -402,18 +414,20 @@ header {
     }
 
     header {
-        position: fixed;
         top: 0;
         z-index: 5;
+        height: auto;
     }
 
     .logo {
         margin-right: 0;
+        margin-top: 0;
     }
 
     .header-button {
+        display: none;
         background-color: #fff;
-        margin-top: 10px;
+        margin-top: 4px;
     }
 
     .orders-list ul li {
@@ -423,16 +437,13 @@ header {
     }
 
     .list-title h1 {
-        margin-top: 90px;
+        margin-top: 10px;
     }
 
     .address-data-title {
         margin-top: 30%;
     }
 
-    /* .quantity button {
-        margin-left: 0px;
-    } */
     .product-quantity {
         margin-left: 8px;
     }
@@ -442,5 +453,22 @@ header {
     }
     .upload-form {
         margin-left: 3px;
+    }
+
+    .h-6 {
+        display: inline;
+        width: 35px;
+        height: 35px;
+        color: #fff;
+        margin: 16px 10px;
+    }
+
+    .registration-login-title {
+        position: unset;
+        margin-top: 10%;
+    }
+
+    .reset-password-div {
+        margin: 30px;
     }
 }

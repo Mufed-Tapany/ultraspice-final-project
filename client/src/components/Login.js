@@ -65,7 +65,7 @@ export default class Login extends Component {
                             onChange={this.onInputChange}
                         />
                         <button type="submit">Login</button>
-                        <div>
+                        <div className="reset-password-div">
                             <Link
                                 to="/password/reset/start"
                                 className="reset-password"

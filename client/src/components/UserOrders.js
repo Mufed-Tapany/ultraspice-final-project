@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Route, Link } from "react-router-dom";
-
 import axios from "../axios";
+import moment from "moment";
 
 export default function UserOrders() {
     const [userOrders, setUserOrders] = useState([]);
@@ -27,7 +26,8 @@ export default function UserOrders() {
                         {order.city}
                     </p>
                     <p>
-                        <strong>Order date: </strong> {order.created_at}
+                        <strong>Order date: </strong>{" "}
+                        <time>{moment(order.created_at).fromNow()}</time>
                     </p>
                 </li>
             );

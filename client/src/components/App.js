@@ -8,6 +8,9 @@ import Size from "./Size";
 import TshirtColor from "./TshirtColor";
 import UserOrders from "./UserOrders";
 import Quantity from "./Quantity";
+import LogoutIcon from "./LogoutIcon";
+import UserOrdersIcon from "./UserOrdersIcon";
+import HomeIcon from "./HomeIcon";
 
 class App extends Component {
     constructor(props) {
@@ -33,6 +36,7 @@ class App extends Component {
         this.incrementQuantity = this.incrementQuantity.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
         this.onDragImage = this.onDragImage.bind(this);
+        this.onLogoutClick = this.onLogoutClick.bind(this);
     }
 
     componentDidMount() {
@@ -137,6 +141,11 @@ class App extends Component {
         });
     }
 
+    onLogoutClick(event) {
+        event.preventDefault();
+        axios.post("/logout").then(() => (window.location = "/"));
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -150,6 +159,25 @@ class App extends Component {
                                 <button className="header-button">
                                     Orders
                                 </button>
+                            </Link>
+                            <Link to="/logout">
+                                <button
+                                    className="header-button"
+                                    onClick={this.onLogoutClick}
+                                >
+                                    Logout
+                                </button>
+                            </Link>
+                            <Link to="/">
+                                <HomeIcon />
+                            </Link>
+                            <Link to="/orders">
+                                <UserOrdersIcon />
+                            </Link>
+                            <Link to="/logout">
+                                <LogoutIcon
+                                    onLogoutClick={this.onLogoutClick}
+                                />
                             </Link>
                         </div>
                         <img className="logo" src="/logo.jpg" />
@@ -195,6 +223,7 @@ class App extends Component {
                 <Route path="/orders">
                     <UserOrders />
                 </Route>
+                <Route path="/logout"></Route>
             </BrowserRouter>
         );
     }
