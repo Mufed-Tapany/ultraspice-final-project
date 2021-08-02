@@ -123,7 +123,7 @@ export default class OrderProgress extends Component {
                     <h3>Thank you! Your order has been successfully sent</h3>
                     <p>
                         Continue{" "}
-                        <Link to="/" className="home">
+                        <Link to="/" className="register-link">
                             shopping
                         </Link>{" "}
                     </p>

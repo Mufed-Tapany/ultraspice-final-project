@@ -27,6 +27,8 @@ class App extends Component {
                     x: 0,
                     y: 0,
                 },
+                imageWidth: 0,
+                imageHeight: 0,
             },
         };
         this.onUpload = this.onUpload.bind(this);

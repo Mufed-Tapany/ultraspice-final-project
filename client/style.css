@@ -286,17 +286,20 @@ header {
     display: inline-flex;
 }
 
-.order-done {
+.order-done,
+.reset-password-done {
     display: flex;
     flex-direction: column;
 }
 
-.order-done h3 {
+.order-done h3,
+.reset-password-done h3 {
     text-align: center;
     opacity: 0.6;
 }
 
-.order-done p {
+.order-done p,
+.reset-password-done p {
     text-align: center;
 }
 

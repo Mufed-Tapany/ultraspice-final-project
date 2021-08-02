@@ -112,8 +112,8 @@ export default class ResetPassword extends Component {
         }
         if (this.state.step == 3) {
             return (
-                <div>
-                    <p>Your password has been successfully reset</p>
+                <div className="reset-password-done">
+                    <h3>Your password has been successfully reset</h3>
                     <p>
                         You can{" "}
                         <Link to="/login" className="register-link">

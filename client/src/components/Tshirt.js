@@ -17,8 +17,14 @@ function Tshirt({
                     src={t_shirt}
                     alt="T-shirt"
                 />
+
                 <Draggable
-                    bounds={{ top: -70, left: -31, right: 25, bottom: 190 }}
+                    bounds={{
+                        top: -70,
+                        left: -31,
+                        right: 25,
+                        bottom: 190,
+                    }}
                     onDrag={(e, data) => onDragImage(data)}
                 >
                     <img
@@ -27,6 +33,7 @@ function Tshirt({
                         alt="T-shirt"
                     />
                 </Draggable>
+
                 <div className="dimensions">
                     x{" "}
                     <input

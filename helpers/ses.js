@@ -23,7 +23,7 @@ function sendEmail(to, code) {
             Message: {
                 Body: {
                     Text: {
-                        Data: `<p>Hello,</p>\n<p>Please insert this code <strong style="color: Blue">${code}</strong> in the input field and reset your password</p>\n<p>Best Regards,</p>\n<p>Your Team</p>`,
+                        Data: `Your code to reset your password is:  ${code}`,
                     },
                 },
                 Subject: {
