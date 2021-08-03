@@ -29,7 +29,7 @@ function Tshirt({
                 >
                     <img
                         className="top"
-                        src={image || "/default.jpg"}
+                        src={image || "/logo.jpg"}
                         alt="T-shirt"
                     />
                 </Draggable>
